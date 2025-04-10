@@ -147,7 +147,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Main Ship - Base - Very damaged_0: 6372854951805474705
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
