@@ -5,7 +5,7 @@ using UnityEngine;
 public class bulletScript : MonoBehaviour
 {
     [Range(1, 10)]
-    [SerializeField] private float speed = 10f; // Bullet speed
+    [SerializeField] private float speed; // Bullet speed
 
     [Range(1, 10)]
     [SerializeField] private float lifeTime = 3f; // Life time of bullet after shooting
@@ -23,5 +23,9 @@ public class bulletScript : MonoBehaviour
     private void FixedUpdate()
     {
         myRigidBodyBullet.linearVelocity = transform.up * speed; // Makes bullet always fly straight forward
+    }
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
 }

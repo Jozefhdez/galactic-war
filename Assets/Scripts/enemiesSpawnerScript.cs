@@ -32,10 +32,21 @@ public class enemiesSpawnerScript : MonoBehaviour
         }
     }
 
-        void spawnEnemy(){
-            float x = Random.Range(-8.0f, 8.0f); // Adjust the range based on your playable zone
+    void spawnEnemy(){
+        float minDistance = 3.0f;
+        GameObject player = GameObject.FindWithTag("ship");
+        if (player == null) return;
+        Vector2 playerPos = player.transform.position;
+        Vector2 spawnPosition;
+        int attempts = 0;
+        do {
+            float x = Random.Range(-8.0f, 8.0f);
             float y = Random.Range(-6f, 6f);
-            Vector2 spawnPosition = new Vector2(x, y);
-            Instantiate(enemies, spawnPosition, Quaternion.identity);
-        }
+            spawnPosition = new Vector2(x, y);
+            attempts++;
+            if (attempts > 50) break;
+        } while (Vector2.Distance(spawnPosition, playerPos) < minDistance);
+
+        Instantiate(enemies, spawnPosition, Quaternion.identity);
+    }
 }

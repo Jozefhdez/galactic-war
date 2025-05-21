@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "galactic-war.sln"
+    "dotnet.defaultSolution": "Galactic War.sln"
 }

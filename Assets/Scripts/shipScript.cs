@@ -7,6 +7,9 @@ public class shipScript : MonoBehaviour
     public float velocity = 5;
     public bool shipIsFine = true;
     public LogicScript logic;
+    public playerHealth playerHealthBar;
+    public float damage = 25f;
+    public float damageBounds = 100f;
     
     // Gun variables
     [SerializeField] private GameObject bulletPrefab;
@@ -61,24 +64,39 @@ public class shipScript : MonoBehaviour
         Vector3 position = transform.position;
         if (position.x > 9.5 || position.x < -9.5 || position.y > 5 || position.y < -5)
         {
-            Destroy(gameObject);
-            logic.gameOver();
-            shipIsFine = false;
+            playerHealthBar.health -= damageBounds;
+            playerHealthBar.UpdateHealthBar();
+            if (playerHealthBar.health <= 0)
+            {
+                Destroy(gameObject);
+                logic.gameOver();
+                shipIsFine = false;
+            }
         }
 
     }
 
     private void OnCollisionEnter2D(Collision2D collision){
-        Destroy(gameObject);
-        logic.gameOver();
-        shipIsFine = false;
+            playerHealthBar.health -= damage;
+            playerHealthBar.UpdateHealthBar();
+            Destroy(collision.gameObject);
+
+            if (playerHealthBar.health <= 0)
+            {
+                Destroy(gameObject);
+                logic.gameOver();
+                shipIsFine = false;
+            }
+
     }
 
     public bool isAliveFunction(){
         return shipIsFine;
     }
 
-    private void Shoot(){
-        Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation);
+    private void Shoot()
+    {
+        GameObject bullet = Instantiate(bulletPrefab, firingPoint.position, firingPoint.rotation);
+        bullet.GetComponent<bulletScript>().SetSpeed(10f);
     }
 }
