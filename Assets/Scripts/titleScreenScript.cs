@@ -12,10 +12,15 @@ public class titleScreenLogic : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 
-    public void startGame(){
-        SceneManager.LoadScene("SampleScene");
+    public void startGame()
+    {
+        SceneManager.LoadScene("GameScreen");
+    }
+     public void QuitGame()
+    {
+        Application.Quit();
     }
 }
