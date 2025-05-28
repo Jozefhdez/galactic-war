@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class shipScript : MonoBehaviour
 {
@@ -17,6 +18,22 @@ public class shipScript : MonoBehaviour
     [Range(0.1f, 2f)]
     [SerializeField] private float fireRate = 0.5f;
     private float fireTimer;
+
+    // Dash variables
+    [SerializeField] private float dashDistance = 3f;
+    [SerializeField] private float dashCooldown = 1f;
+    [SerializeField] private float dashStaminaCost = 100f;
+    [SerializeField] private float dashDuration = 0.15f;
+    [SerializeField] private float dashSpeed = 20f;
+    private bool isDashing = false;
+    private float dashCooldownTimer = 0f;
+
+    // Stamina variables
+    public float maxStamina = 100f;
+    public float stamina = 100f;
+    public float staminaRegenRate = 10f; // Stamian regeneration per second
+    public UnityEngine.UI.Image staminaBar;
+
     private void Start()
     {
         // Set the ship to a specific layer
@@ -60,6 +77,30 @@ public class shipScript : MonoBehaviour
         } else {
             fireTimer -= Time.deltaTime;
         }
+
+        // Logica para el dash
+        if (!isDashing)
+        {
+            dashCooldownTimer -= Time.deltaTime;
+            if (Input.GetKeyDown(KeyCode.Space) && dashCooldownTimer <= 0f && stamina >= dashStaminaCost)
+            {
+                Dash();
+                stamina -= dashStaminaCost;
+                dashCooldownTimer = dashCooldown;
+            }
+
+            // Regenerar estamina
+            if (stamina < maxStamina)
+            {
+                stamina += staminaRegenRate * Time.deltaTime;
+                stamina = Mathf.Min(stamina, maxStamina);
+            }
+
+            // Actualizar staminaBar
+            if (staminaBar != null)
+                staminaBar.fillAmount = stamina / maxStamina;
+        }
+
         // Check if the ship goes out of bounds
         Vector3 position = transform.position;
         if (position.x > 9.5 || position.x < -9.5 || position.y > 5 || position.y < -5)
@@ -92,6 +133,27 @@ public class shipScript : MonoBehaviour
 
     public bool isAliveFunction(){
         return shipIsFine;
+    }
+
+    private void Dash()
+    {
+        if (!isDashing)
+            StartCoroutine(DashRoutine());
+    }
+    private IEnumerator DashRoutine()
+    {
+        isDashing = true;
+        float elapsed = 0f;
+        Vector3 dashDirection = transform.up;
+
+        while (elapsed < dashDuration)
+        {
+            transform.position += dashDirection * dashSpeed * Time.deltaTime;
+            elapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        isDashing = false;
     }
 
     private void Shoot()
