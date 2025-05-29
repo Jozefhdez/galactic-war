@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Bullet
   - BulletEnemy
+  - HP
+  - Shield
   layers:
   - Default
   - TransparentFX
