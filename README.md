@@ -27,7 +27,7 @@
 
 ## Screenshots
 ![Menu](/Assets/Assets/menu.png)
-*Game Manu.*
+*Game Menu.*
 
 ![Gameplay](/Assets/Assets/gameplay1.png)
 *In-game action: dodging enemy fire and collecting power-ups.*
