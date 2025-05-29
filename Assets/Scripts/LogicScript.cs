@@ -48,7 +48,7 @@ public class LogicScript : MonoBehaviour
             playerHighScore = playerScore;
             PlayerPrefs.SetInt("highScore", playerHighScore);
             PlayerPrefs.Save();
-            highScoreText.text = "High score: " + playerHighScore.ToString();
+            highScoreText.text = "Record: " + playerHighScore.ToString();
         }
 
     }
