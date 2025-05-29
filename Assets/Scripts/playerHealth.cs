@@ -23,11 +23,11 @@ public class playerHealth : MonoBehaviour
         healthBar.fillAmount = math.clamp(health / maxHealth, 0, 1);
 
         if (healthBar.fillAmount > 0.7f)
-            healthBar.color = Color.green;
+            healthBar.color = new Color32(0x2e, 0xcc, 0x71, 0xff); 
         else if (healthBar.fillAmount > 0.25f)
-            healthBar.color = Color.yellow;
+            healthBar.color = new Color32(0xf1, 0xc4, 0x0f, 0xff);
         else
-            healthBar.color = Color.red;
+            healthBar.color = new Color32(0xe7, 0x4c, 0x3c, 0xff);
     }
 
 }

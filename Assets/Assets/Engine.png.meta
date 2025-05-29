@@ -134,177 +134,89 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_0
+      name: Engine_0
       rect:
         serializedVersion: 2
-        x: 12
-        y: 1
-        width: 8
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 6eaea0d2bbf4cd0c0800000000000000
-      internalID: -4549673858217874714
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_1
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 1
-        width: 8
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 88dbc164d05c792a0800000000000000
-      internalID: -6730694457280381560
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_2
-      rect:
-        serializedVersion: 2
-        x: 60
-        y: 2
-        width: 8
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b074d62a32cefca80800000000000000
-      internalID: -8444271138503309557
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_3
-      rect:
-        serializedVersion: 2
-        x: 76
-        y: 2
-        width: 8
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: d43d571f2131e2640800000000000000
-      internalID: 5057000403665015629
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_4
-      rect:
-        serializedVersion: 2
-        x: 108
-        y: 4
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3b6536570157308e0800000000000000
-      internalID: -1728409118430767437
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_5
-      rect:
-        serializedVersion: 2
-        x: 124
-        y: 4
-        width: 8
-        height: 10
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 67888df901ec15e40800000000000000
-      internalID: 5643518378868508790
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_6
-      rect:
-        serializedVersion: 2
-        x: 156
+        x: 0
         y: 0
-        width: 8
-        height: 14
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: d69bac68d982db540800000000000000
-      internalID: 5025217416251750765
+      spriteID: 2623a0a4ecf964ce7a7e79ce3c86db21
+      internalID: 74189156
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Main Ship - Engines - Supercharged Engine - Powering_7
+      name: Engine_1
       rect:
         serializedVersion: 2
-        x: 172
+        x: 48
         y: 0
-        width: 8
-        height: 14
+        width: 48
+        height: 48
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 4669aeb6e6ec74630800000000000000
-      internalID: 3911321775046825572
+      spriteID: 35653f7ceb4c54b398f99dd15768a4cc
+      internalID: -1719400903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Engine_2
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 67afd3bf91f584b76a316a57b666d3bc
+      internalID: 422857490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Engine_3
+      rect:
+        serializedVersion: 2
+        x: 144
+        y: 0
+        width: 48
+        height: 48
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7256b436471f487abf2c1722fb2bce5
+      internalID: -1399672928
       vertices: []
       indices: 
       edges: []
@@ -313,7 +225,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e1fa8313066a749009b2aeebe56aced4
     internalID: 0
     vertices: []
     indices: 
@@ -323,14 +235,10 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Main Ship - Engines - Supercharged Engine - Powering_0: -4549673858217874714
-      Main Ship - Engines - Supercharged Engine - Powering_1: -6730694457280381560
-      Main Ship - Engines - Supercharged Engine - Powering_2: -8444271138503309557
-      Main Ship - Engines - Supercharged Engine - Powering_3: 5057000403665015629
-      Main Ship - Engines - Supercharged Engine - Powering_4: -1728409118430767437
-      Main Ship - Engines - Supercharged Engine - Powering_5: 5643518378868508790
-      Main Ship - Engines - Supercharged Engine - Powering_6: 5025217416251750765
-      Main Ship - Engines - Supercharged Engine - Powering_7: 3911321775046825572
+      Engine_0: 74189156
+      Engine_1: -1719400903
+      Engine_2: 422857490
+      Engine_3: -1399672928
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

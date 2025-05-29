@@ -11,6 +11,7 @@ TagManager:
   - BulletEnemy
   - HP
   - Shield
+  - Engine
   layers:
   - Default
   - TransparentFX

@@ -1,17 +1,19 @@
 using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class shipScript : MonoBehaviour
 {
-
     public Rigidbody2D myRigidBody;
     public float velocity = 5;
+    public float boostSpeed = 15f; // Velocidad en boost
+    public float boostStaminaCost = 40f; // Gasto de estamina por segundo en boost
     public bool shipIsFine = true;
     public LogicScript logic;
     public playerHealth playerHealthBar;
     public float damage = 25f;
     public float damageBounds = 100f;
-    
+
     // Gun variables
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform firingPoint;
@@ -19,78 +21,67 @@ public class shipScript : MonoBehaviour
     [SerializeField] private float fireRate = 0.5f;
     private float fireTimer;
 
-    // Dash variables
-    [SerializeField] private float dashCooldown = 1f;
-    [SerializeField] private float dashStaminaCost = 100f;
-    [SerializeField] private float dashDuration = 0.15f;
-    [SerializeField] private float dashSpeed = 20f;
-    private bool isDashing = false;
-    private float dashCooldownTimer = 0f;
-
     // Stamina variables
     public float maxStamina = 100f;
     public float stamina = 100f;
-    public float staminaRegenRate = 10f; // Stamian regeneration per second
+    public float staminaRegenRate = 10f;
     public UnityEngine.UI.Image staminaBar;
 
     // Shield variables
     private int shieldHits = 0;
     public GameObject shieldVisual;
 
+    // Engine effect
+    public GameObject engineEffect;
+
+    public UnityEngine.UI.Image marcoHealth;
+    public UnityEngine.UI.Image marcoStamina;
+
     private void Start()
     {
-        // Set the ship to a specific layer
         gameObject.layer = LayerMask.NameToLayer("Ship");
-
-        // Set the bullet prefab to a specific layer
         bulletPrefab.layer = LayerMask.NameToLayer("Bullet");
-
-        // Ignore collision between ship and its bullets
         Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Ship"), LayerMask.NameToLayer("Bullet"));
+
+        if (engineEffect == null)
+            engineEffect = GetComponentInChildren<Transform>(true)
+                .GetComponentsInChildren<Transform>(true)
+                .FirstOrDefault(t => t.CompareTag("Engine"))?.gameObject;
+
+        if (engineEffect != null)
+            engineEffect.SetActive(false);
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(Input.GetKey(KeyCode.W)){
-            transform.position += Vector3.up * velocity * Time.deltaTime;
-        }
+        // Movimiento y boost
+        Vector3 moveDir = Vector3.zero;
+        if (Input.GetKey(KeyCode.W)) moveDir += Vector3.up;
+        if (Input.GetKey(KeyCode.A)) moveDir += Vector3.left;
+        if (Input.GetKey(KeyCode.D)) moveDir += Vector3.right;
+        if (Input.GetKey(KeyCode.S)) moveDir += Vector3.down;
+        moveDir.Normalize();
 
-        if(Input.GetKey(KeyCode.A)){
-            transform.position += Vector3.left * velocity * Time.deltaTime;
-        }
+        bool boosting = Input.GetKey(KeyCode.Space) && stamina > 0.1f;
 
-        if(Input.GetKey(KeyCode.D)){
-            transform.position += Vector3.right * velocity * Time.deltaTime;
-        }
-
-        if(Input.GetKey(KeyCode.S)){
-            transform.position += Vector3.down * velocity * Time.deltaTime;
-        }
-
-        Vector3 mousePosition = Input.mousePosition;
-        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
-
-        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
-        transform.up = direction.normalized;
-
-        if(Input.GetMouseButton(0) && fireTimer < 0f){
-            Shoot();
-            fireTimer = fireRate;
-        } else {
-            fireTimer -= Time.deltaTime;
-        }
-
-        // Logica para el dash
-        if (!isDashing)
+        if (boosting)
         {
-            dashCooldownTimer -= Time.deltaTime;
-            if (Input.GetKeyDown(KeyCode.Space) && dashCooldownTimer <= 0f && stamina >= dashStaminaCost)
-            {
-                Dash();
-                stamina -= dashStaminaCost;
-                dashCooldownTimer = dashCooldown;
-            }
+            if (engineEffect != null && !engineEffect.activeSelf)
+                engineEffect.SetActive(true);
+
+            transform.position += moveDir * boostSpeed * Time.deltaTime;
+            stamina -= boostStaminaCost * Time.deltaTime;
+            stamina = Mathf.Max(stamina, 0f);
+
+            if (stamina <= 0f && engineEffect != null)
+                engineEffect.SetActive(false);
+        }
+        else
+        {
+            if (engineEffect != null && engineEffect.activeSelf)
+                engineEffect.SetActive(false);
+
+            transform.position += moveDir * velocity * Time.deltaTime;
 
             // Regenerar estamina
             if (stamina < maxStamina)
@@ -98,11 +89,27 @@ public class shipScript : MonoBehaviour
                 stamina += staminaRegenRate * Time.deltaTime;
                 stamina = Mathf.Min(stamina, maxStamina);
             }
-
-            // Actualizar staminaBar
-            if (staminaBar != null)
-                staminaBar.fillAmount = stamina / maxStamina;
         }
+
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
+        Vector2 direction = new Vector2(mousePosition.x - transform.position.x, mousePosition.y - transform.position.y);
+        transform.up = direction.normalized;
+
+        // Disparo
+        if (Input.GetMouseButton(0) && fireTimer < 0f)
+        {
+            Shoot();
+            fireTimer = fireRate;
+        }
+        else
+        {
+            fireTimer -= Time.deltaTime;
+        }
+
+        // Actualizar barra de estamina
+        if (staminaBar != null)
+            staminaBar.fillAmount = stamina / maxStamina;
 
         // Check if the ship goes out of bounds
         Vector3 position = transform.position;
@@ -113,12 +120,13 @@ public class shipScript : MonoBehaviour
             if (playerHealthBar.health <= 0)
             {
                 Destroy(staminaBar.gameObject);
+                Destroy(marcoHealth.gameObject);
+                Destroy(marcoStamina.gameObject);
                 Destroy(gameObject);
                 logic.gameOver();
                 shipIsFine = false;
             }
         }
-
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -140,55 +148,36 @@ public class shipScript : MonoBehaviour
         {
             if (staminaBar != null)
                 Destroy(staminaBar.gameObject);
+                Destroy(marcoHealth.gameObject);
+                Destroy(marcoStamina.gameObject);
             Destroy(gameObject);
             logic.gameOver();
             shipIsFine = false;
         }
     }
-    private void OnTriggerEnter2D(Collider2D other)
-{
-    if (other.gameObject.CompareTag("Shield"))
-    {
-        shieldHits = 3;
-        shieldVisual.SetActive(true);
-        Destroy(other.gameObject);
-        return;
-    }
 
-    if (other.gameObject.CompareTag("HP"))
+    private void OnTriggerEnter2D(Collider2D other)
     {
-        playerHealthBar.health = playerHealthBar.maxHealth;
-        playerHealthBar.UpdateHealthBar();
-        Destroy(other.gameObject);
-        return;
+        if (other.gameObject.CompareTag("Shield"))
+        {
+            shieldHits = 3;
+            shieldVisual.SetActive(true);
+            Destroy(other.gameObject);
+            return;
+        }
+
+        if (other.gameObject.CompareTag("HP"))
+        {
+            playerHealthBar.health = playerHealthBar.maxHealth;
+            playerHealthBar.UpdateHealthBar();
+            Destroy(other.gameObject);
+            return;
+        }
     }
-    
-}
 
     public bool isAliveFunction()
     {
         return shipIsFine;
-    }
-
-    private void Dash()
-    {
-        if (!isDashing)
-            StartCoroutine(DashRoutine());
-    }
-    private IEnumerator DashRoutine()
-    {
-        isDashing = true;
-        float elapsed = 0f;
-        Vector3 dashDirection = transform.up;
-
-        while (elapsed < dashDuration)
-        {
-            transform.position += dashDirection * dashSpeed * Time.deltaTime;
-            elapsed += Time.deltaTime;
-            yield return null;
-        }
-
-        isDashing = false;
     }
 
     private void Shoot()
