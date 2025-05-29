@@ -20,7 +20,6 @@ public class shipScript : MonoBehaviour
     private float fireTimer;
 
     // Dash variables
-    [SerializeField] private float dashDistance = 3f;
     [SerializeField] private float dashCooldown = 1f;
     [SerializeField] private float dashStaminaCost = 100f;
     [SerializeField] private float dashDuration = 0.15f;
@@ -33,6 +32,10 @@ public class shipScript : MonoBehaviour
     public float stamina = 100f;
     public float staminaRegenRate = 10f; // Stamian regeneration per second
     public UnityEngine.UI.Image staminaBar;
+
+    // Shield variables
+    private int shieldHits = 0;
+    public GameObject shieldVisual;
 
     private void Start()
     {
@@ -109,6 +112,7 @@ public class shipScript : MonoBehaviour
             playerHealthBar.UpdateHealthBar();
             if (playerHealthBar.health <= 0)
             {
+                Destroy(staminaBar.gameObject);
                 Destroy(gameObject);
                 logic.gameOver();
                 shipIsFine = false;
@@ -117,21 +121,52 @@ public class shipScript : MonoBehaviour
 
     }
 
-    private void OnCollisionEnter2D(Collision2D collision){
-            playerHealthBar.health -= damage;
-            playerHealthBar.UpdateHealthBar();
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (shieldHits > 0)
+        {
+            shieldHits--;
+            if (shieldHits == 0 && shieldVisual != null)
+                shieldVisual.SetActive(false);
             Destroy(collision.gameObject);
+            return;
+        }
 
-            if (playerHealthBar.health <= 0)
-            {
-                Destroy(gameObject);
-                logic.gameOver();
-                shipIsFine = false;
-            }
+        playerHealthBar.health -= damage;
+        playerHealthBar.UpdateHealthBar();
+        Destroy(collision.gameObject);
 
+        if (playerHealthBar.health <= 0)
+        {
+            if (staminaBar != null)
+                Destroy(staminaBar.gameObject);
+            Destroy(gameObject);
+            logic.gameOver();
+            shipIsFine = false;
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+{
+    if (other.gameObject.CompareTag("Shield"))
+    {
+        shieldHits = 3;
+        shieldVisual.SetActive(true);
+        Destroy(other.gameObject);
+        return;
     }
 
-    public bool isAliveFunction(){
+    if (other.gameObject.CompareTag("HP"))
+    {
+        playerHealthBar.health = playerHealthBar.maxHealth;
+        playerHealthBar.UpdateHealthBar();
+        Destroy(other.gameObject);
+        return;
+    }
+    
+}
+
+    public bool isAliveFunction()
+    {
         return shipIsFine;
     }
 

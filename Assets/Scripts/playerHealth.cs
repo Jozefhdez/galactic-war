@@ -21,12 +21,13 @@ public class playerHealth : MonoBehaviour
     public void UpdateHealthBar()
     {
         healthBar.fillAmount = math.clamp(health / maxHealth, 0, 1);
+
         if (healthBar.fillAmount > 0.7f)
+            healthBar.color = Color.green;
+        else if (healthBar.fillAmount > 0.25f)
             healthBar.color = Color.yellow;
-        else if (healthBar.fillAmount >= 0.25f)
-            healthBar.color = Color.red;
         else
             healthBar.color = Color.red;
-        }
+    }
 
 }

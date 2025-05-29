@@ -15,7 +15,7 @@ public class LogicScript : MonoBehaviour
     void Start()
     {
         playerHighScore = PlayerPrefs.GetInt("highScore", 0);
-        highScoreText.text = "High score: " + playerHighScore.ToString();
+        highScoreText.text = "Record: " + playerHighScore.ToString();
     }
 
     // Update is called once per frame
